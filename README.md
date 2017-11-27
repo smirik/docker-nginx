@@ -1,23 +1,15 @@
-# Requirements
-(!) Must be to set environment variables
-
-```Shell
-ENV=(prod|dev)
-WWW_DIR=/var/www/html
-```
+# Desciption
+nginx image optimized for Symfony Flex projects.
 
 # Usage
 ```Yaml
 nginx:
-  image: 4xxi/nginx
-  depends_on:
-    - web
-  volumes:
-    - ./var/logs:/var/log/nginx
-    - .:${WWW_DIR}
-  ports:
-    - "${SERVER_HTTP_PORT}:80"
-  environment:
-    WWW_DIR: ${WWW_DIR}
-    SYMFONY_ENV: ${ENV}
+    image: 4xxi/nginx:flex
+    depends_on:
+        - php
+    volumes:
+        - .:/var/www/html
+        - ./var/log:/var/log/nginx
+    ports:
+        - "${SERVER_HTTP_PORT}:80"
 ```

@@ -1,14 +1,10 @@
-FROM nginx:alpine
+FROM nginx:latest
+
 WORKDIR /etc/nginx
 
 COPY nginx.conf .
-COPY nginx-entrypoint.sh ./nginx-entrypoint.sh
-COPY symfony.conf ./symfony.template.conf
-RUN mkdir sites-available
+COPY symfony.conf ./sites-available/symfony.conf
+
 RUN rm ./conf.d/default.conf
-RUN echo "upstream php-upstream { server web:9000; }" > ./conf.d/upstream.conf
-RUN adduser -D -u 1000 www-data
-
-ENTRYPOINT ./nginx-entrypoint.sh
-
-EXPOSE 80 443
+RUN echo "upstream php-upstream { server php:9000; }" > ./conf.d/upstream.conf
+RUN usermod -u 1000 www-data
